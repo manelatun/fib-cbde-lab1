@@ -5,8 +5,10 @@ import statistics
 import json
 import time
 
+from config import postgres_config
+
 # https://www.psycopg.org/docs/usage.html
-conn = psycopg2.connect(dbname="cbde", user="cbde", password="cbde")
+conn = psycopg2.connect(postgres_config)
 cur = conn.cursor()
 cur.execute("DROP TABLE IF EXISTS sentences CASCADE")
 cur.execute("""

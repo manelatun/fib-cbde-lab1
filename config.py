@@ -1,3 +1,5 @@
+postgres_config = "dbname=cbde user=cbde password=cbde"
+
 # valores validos:
 # euclidean_distance
 # cosine_distance

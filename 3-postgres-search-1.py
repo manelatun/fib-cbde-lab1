@@ -7,10 +7,10 @@ import time
 import statistics
 
 from lib.do_embeddings import do_embeddings
-from config import frases_busqueda, order_by, limit
+from config import frases_busqueda, order_by, limit, postgres_config
 
 # https://www.psycopg.org/docs/usage.html
-conn = psycopg2.connect(dbname="cbde", user="cbde", password="cbde")
+conn = psycopg2.connect(postgres_config)
 cur = conn.cursor()
 
 times = []
