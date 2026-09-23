@@ -10,7 +10,7 @@ import statistics
 from pgvector.psycopg2 import register_vector
 from pgvector import Vector
 
-from lib.do_embeddings import do_embeddings
+from do_embeddings import do_embeddings
 from config import frases_busqueda, order_by, limit, postgres_config
 
 # https://www.psycopg.org/docs/usage.html

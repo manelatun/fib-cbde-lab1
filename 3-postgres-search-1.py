@@ -6,7 +6,7 @@ from prettytable import PrettyTable
 import time
 import statistics
 
-from lib.do_embeddings import do_embeddings
+from do_embeddings import do_embeddings
 from config import frases_busqueda, order_by, limit, postgres_config
 
 # https://www.psycopg.org/docs/usage.html

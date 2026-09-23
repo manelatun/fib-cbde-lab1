@@ -8,7 +8,7 @@ import json
 from config import order_by
 
 # https://docs.trychroma.com/docs/overview/getting-started
-chroma_client = chromadb.Client()
+chroma_client = chromadb.PersistentClient(path="./chroma.db")
 try:
   chroma_client.delete_collection(name="sentences")
 except:
