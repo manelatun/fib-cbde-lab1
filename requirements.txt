@@ -1,0 +1,9 @@
+psycopg2 ~= 2.9.13
+chromadb ~= 1.5.9
+pgvector == 0.5.0
+
+# Utilizamos las mismas versiones que hay en Google Colab para evitar problemas.
+datasets ~= 4.8.5
+sentence-transformers ~= 5.7.0
+scipy ~= 1.16.3
+numpy ~= 1.26.4
