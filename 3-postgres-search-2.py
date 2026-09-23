@@ -1,7 +1,6 @@
 # PostgreSQL, se calcula la distancia en la base de datos mediante procedimientos almacenados
 
 import psycopg2
-from scipy.spatial.distance import euclidean, cosine
 from prettytable import PrettyTable
 import time
 import statistics
