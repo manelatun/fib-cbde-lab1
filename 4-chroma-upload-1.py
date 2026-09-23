@@ -1,0 +1,72 @@
+# Chroma, se insertan de uno en uno
+
+import chromadb
+import statistics
+import time
+import json
+
+from config import order_by
+
+# https://docs.trychroma.com/docs/overview/getting-started
+chroma_client = chromadb.Client()
+try:
+  chroma_client.delete_collection(name="sentences")
+except:
+  pass
+
+# CromaDB no permite modificar la formula de distancia despues de crear la coleccion,
+# por lo que hay que volver a ejecutar este script si se modifica order_by
+# https://docs.trychroma.com/docs/collections/configure#hnsw-index-configuration
+if order_by == "euclidean_distance":
+  chromadb_space = "l2"
+elif order_by == "cosine_distance":
+  chromadb_space = "cosine"
+else:
+  raise Exception(order_by + " no es valido")
+
+collection = chroma_client.create_collection(
+  name="sentences",
+  configuration={
+    "hnsw": {
+      "space": chromadb_space,
+    }
+  }
+)
+
+print("Cargando embeddings.json")
+
+# carga los embeddings desde el fichero ("simulamos" que los estamos generando)
+start = time.perf_counter()
+with open('embeddings.json', 'r') as f:
+  result = json.load(f)
+end = time.perf_counter()
+load_time = end - start
+
+print(f"{result['count']} embeddings, generados originalmente en {result['elapsed']} (Cargados en {load_time})")
+print()
+print("Subiendo a Chroma")
+
+times = []
+
+# inserta los embedddings de cada frase del dataset en Chroma
+for row in result['rows']:
+
+  start = time.perf_counter()
+
+  # https://docs.trychroma.com/docs/collections/add-data#adding-data
+  collection.add(
+    ids=[str(id)],
+    documents=[row['sentence']],
+    embeddings=[row['embedding']]
+  )
+
+  end = time.perf_counter()
+  times += [end - start]
+
+# output de los tiempos de inserción
+print("Mean:", statistics.mean(times))
+print("Median:", statistics.median(times))
+print("Standard deviation:", statistics.stdev(times))
+print("Min:", min(times))
+print("Max:", max(times))
+print("Total:", sum(times))
