@@ -1,7 +1,7 @@
 from datasets import load_dataset
 import json
 
-from lib.do_embeddings import do_embeddings
+from do_embeddings import do_embeddings
 
 # En local solo generamos embeddings para 1.000 frases.
 # Los resultados se guardan en embeddings.json para poder usarlos posteriormente en el resto de scripts.

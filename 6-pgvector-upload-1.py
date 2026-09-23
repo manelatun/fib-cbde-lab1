@@ -10,7 +10,7 @@ from config import postgres_config
 # https://www.psycopg.org/docs/usage.html
 conn = psycopg2.connect(postgres_config)
 cur = conn.cursor()
-cur.execute("DROP TABLE IF EXISTS sentences CASCADE")
+cur.execute("DROP TABLE IF EXISTS sentences_pgvector CASCADE")
 cur.execute("""
 CREATE TABLE sentences_pgvector (
   id INTEGER PRIMARY KEY,
