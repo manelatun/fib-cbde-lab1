@@ -23,7 +23,7 @@ CREATE TABLE sentences (
 cur.execute("""
 CREATE TABLE embeddings (
   sentence_id INTEGER PRIMARY KEY references sentences(id),
-  embedding DOUBLE PRECISION[]
+  embedding REAL[]
   )
 """)
 
