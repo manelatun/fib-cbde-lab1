@@ -63,7 +63,7 @@ for search in do_embeddings(frases_busqueda)['rows']:
       euclidean_distance(embedding, %s::real[], 384) AS euclidean_distance,
       cosine_distance(embedding, %s::real[], 384) AS cosine_distance,
       sentence
-    FROM sentences
+    FROM sentences s JOIN embeddings e ON s.id = e.sentence_id
     ORDER BY {order_by}
     LIMIT {limit}
   """, (search['embedding'], search['embedding']))
