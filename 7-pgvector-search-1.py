@@ -40,7 +40,7 @@ for search in do_embeddings(frases_busqueda)['rows']:
         embedding <-> %s AS euclidean_distance,
         embedding <=> %s AS cosine_distance,
         sentence
-      FROM sentences_pgvector
+      FROM sentences_pgvector sp JOIN embeddings_pgvector ep ON sp.id = ep.sentence_id
       ORDER BY {order_by} ASC
       LIMIT {limit}
     """, (

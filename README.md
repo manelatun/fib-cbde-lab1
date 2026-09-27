@@ -268,6 +268,13 @@ Standard deviation: 0.003765175714838944
 Min: 0.018224845996883232
 Max: 0.030947442995966412
 Total: 0.2038080649872427
+
+Mean: 0.001697654299914575
+Median: 0.0011233764998905826
+Standard deviation: 0.0014862508653669293
+Min: 0.001012746999549563
+Max: 0.0057820860001811525
+Total: 0.01697654299914575
 ```
 
 `7-pgvector-search-2.py` - Búsqueda con los procedimientos almacenados de distancia proporcionados pgVector, con índices (hnsw, los mismos que en chroma)
