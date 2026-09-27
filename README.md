@@ -122,6 +122,13 @@ Standard deviation: 0.09391454098578557
 Min: 3.005648909995216
 Max: 3.2945583580003586
 Total: 30.800568107981235
+
+Mean: 0.10509927220000463
+Median: 0.09851612700003898
+Standard deviation: 0.01775927871804627
+Min: 0.09478738500001782
+Max: 0.15333371599990642
+Total: 1.0509927220000463
 ```
 
 `3-postgres-search-2.py` - Se calcula la distancia en la base de datos mediante procedimientos almacenados

@@ -21,7 +21,7 @@ for search in do_embeddings(frases_busqueda)['rows']:
   start = time.perf_counter()
 
   # obtiene todas las frases y embeddings guardados en PostgreSQL y calcula sus distancias
-  cur.execute("SELECT * FROM sentences")
+  cur.execute("SELECT id, sentence, embedding FROM sentences s JOIN embeddings e ON s.id = e.sentence_id")
   rows = []
   for id, sentence, embeddings in cur.fetchall():
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html
