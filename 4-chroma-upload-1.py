@@ -44,11 +44,11 @@ load_time = end - start
 
 print(f"{result['count']} embeddings, generados originalmente en {result['elapsed']} (Cargados en {load_time})")
 print()
-print("Subiendo a Chroma")
+print("Subiendo frases a Chroma")
 
-times = []
+sentence_times = []
 
-# inserta los embedddings de cada frase del dataset en Chroma
+# inserta las frases del dataset en Chroma
 for row in result['rows']:
 
   start = time.perf_counter()
@@ -56,17 +56,44 @@ for row in result['rows']:
   # https://docs.trychroma.com/docs/collections/add-data#adding-data
   collection.add(
     ids=[str(id)],
-    documents=[row['sentence']],
+    documents=[row['sentence']]
+  )
+
+  end = time.perf_counter()
+  sentence_times += [end - start]
+
+
+print("Actualizando la tabla para insertar los embeddings a Chroma")
+
+embeddings_times = []
+
+# inserta las frases del dataset en Chroma
+for row in result['rows']:
+
+  start = time.perf_counter()
+
+  # https://docs.trychroma.com/docs/collections/add-data#adding-data
+  collection.update(
+    ids=[str(id)],
     embeddings=[row['embedding']]
   )
 
   end = time.perf_counter()
-  times += [end - start]
+  embeddings_times += [end - start]
 
 # output de los tiempos de inserción
-print("Mean:", statistics.mean(times))
-print("Median:", statistics.median(times))
-print("Standard deviation:", statistics.stdev(times))
-print("Min:", min(times))
-print("Max:", max(times))
-print("Total:", sum(times))
+print("Tiempo de insercion de las frases: ")
+print("Mean:", statistics.mean(sentence_times))
+print("Median:", statistics.median(sentence_times))
+print("Standard deviation:", statistics.stdev(sentence_times))
+print("Min:", min(sentence_times))
+print("Max:", max(sentence_times))
+print("Total:", sum(sentence_times))
+
+print("Tiempo de insercion de los embeddings: ")
+print("Mean:", statistics.mean(embeddings_times))
+print("Median:", statistics.median(embeddings_times))
+print("Standard deviation:", statistics.stdev(embeddings_times))
+print("Min:", min(embeddings_times))
+print("Max:", max(embeddings_times))
+print("Total:", sum(embeddings_times))
