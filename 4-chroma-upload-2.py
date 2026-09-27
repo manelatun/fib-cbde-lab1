@@ -44,15 +44,16 @@ load_time = end - start
 
 print(f"{result['count']} embeddings, generados originalmente en {result['elapsed']} (Cargados en {load_time})")
 print()
-print("Subiendo a Chroma")
 
 ids = [str(row['id']) for row in result['rows']]
 sentences = [row['sentence'] for row in result['rows']]
 embeddings = [row['embedding'] for row in result['rows']]
 
-batch_size = 5000
+batch_size = 500
 
-times = []
+print("Subiendo frases a Chroma")
+
+sentences_times = []
 
 # inserta los embedddings de cada frase del dataset en Chroma
 for i in range(0, len(ids), batch_size):
@@ -62,18 +63,46 @@ for i in range(0, len(ids), batch_size):
   # https://docs.trychroma.com/docs/collections/add-data#adding-data
   collection.add(
     ids=ids[i:i+batch_size],
-    documents=sentences[i:i+batch_size],
+    documents=sentences[i:i+batch_size]
+  )
+
+  end = time.perf_counter()
+  sentences_times += [end - start]
+
+
+print("Subiendo embeddings a Chroma")
+
+embeddings_times = []
+
+# inserta los embedddings de cada frase del dataset en Chroma
+for i in range(0, len(ids), batch_size):
+
+  start = time.perf_counter()
+
+  # https://docs.trychroma.com/docs/collections/add-data#adding-data
+  collection.update(
+    ids=ids[i:i+batch_size],
     embeddings=embeddings[i:i+batch_size]
   )
 
   end = time.perf_counter()
-  times += [end - start]
+  embeddings_times += [end - start]
 
 # output de los tiempos de inserción (por batch)
-print("Mean:", statistics.mean(times))
-print("Median:", statistics.median(times))
-print("Standard deviation:", statistics.stdev(times))
-print("Min:", min(times))
-print("Max:", max(times))
-print("Total:", sum(times))
+print("Tiempo de insercion de las frases: ")
+print("Mean:", statistics.mean(sentences_times))
+print("Median:", statistics.median(sentences_times))
+print("Standard deviation:", statistics.stdev(sentences_times))
+print("Min:", min(sentences_times))
+print("Max:", max(sentences_times))
+print("Total:", sum(sentences_times))
+print("Batch size:", batch_size)
+
+print("Tiempo de insercion de los embeddings: ")
+print("Mean:", statistics.mean(embeddings_times))
+print("Median:", statistics.median(embeddings_times))
+print("Standard deviation:", statistics.stdev(embeddings_times))
+print("Min:", min(embeddings_times))
+print("Max:", max(embeddings_times))
+print("Total:", sum(embeddings_times))
 print("Batch size:", batch_size)
