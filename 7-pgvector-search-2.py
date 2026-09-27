@@ -21,9 +21,9 @@ cur = conn.cursor()
 # creación de índices
 # https://github.com/pgvector/pgvector#hnsw
 cur.execute("DROP INDEX IF EXISTS index_hnsw_l2;")
-cur.execute("CREATE INDEX index_hnsw_l2 ON sentences_pgvector USING hnsw (embedding vector_l2_ops);")
+cur.execute("CREATE INDEX index_hnsw_l2 ON embeddings_pgvector USING hnsw (embedding vector_l2_ops);")
 cur.execute("DROP INDEX IF EXISTS index_hnsw_cosine;")
-cur.execute("CREATE INDEX index_hnsw_cosine ON sentences_pgvector USING hnsw (embedding vector_cosine_ops);")
+cur.execute("CREATE INDEX index_hnsw_cosine ON embeddings_pgvector USING hnsw (embedding vector_cosine_ops);")
 conn.commit()
 
 times = []
@@ -43,7 +43,7 @@ for search in do_embeddings(frases_busqueda)['rows']:
         embedding <-> %s AS euclidean_distance,
         embedding <=> %s AS cosine_distance,
         sentence
-      FROM sentences_pgvector
+      FROM sentences_pgvector sp JOIN embeddings_pgvector ep ON sp.id = ep.sentence_id
       ORDER BY {order_by} ASC
       LIMIT {limit}
     """, (
